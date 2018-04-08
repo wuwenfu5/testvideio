@@ -23,7 +23,7 @@ cap = cv2.VideoCapture(r"/home/wuwenfu5/PycharmProjects/Three_people_cross.mp4")
 
 
 
-if False == cap.isOpened():
+if cap.isOpened() is False:
     print('capture is not opened')
 else:
     print('capture is opened')
