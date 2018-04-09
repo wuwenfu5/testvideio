@@ -57,6 +57,11 @@ params.minInertiaRatio = 0.01
 time_last = -1.0  # 避免刚运行程序时时间差为0，
 frame_count = 0
 
+time_kaishi = time.clock()
+time_kaishi1 = time.time()
+print(time_kaishi)
+print(time_kaishi1)
+
 while cap.isOpened():
     ret, frame = cap.read()
 
@@ -114,6 +119,9 @@ while cap.isOpened():
     else:
         print('get frame error!')
         break
+
+print(time.clock() - time_kaishi)
+print(time.time() - time_kaishi1)
 
 cap.release()
 cv2.destroyAllWindows()
