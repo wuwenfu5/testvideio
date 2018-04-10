@@ -57,10 +57,7 @@ params.minInertiaRatio = 0.01
 time_last = -1.0  # 避免刚运行程序时时间差为0，
 frame_count = 0
 
-time_kaishi = time.clock()
-time_kaishi1 = time.time()
-print(time_kaishi)
-print(time_kaishi1)
+time_kaishi = time.perf_counter()
 
 while cap.isOpened():
     ret, frame = cap.read()
@@ -96,7 +93,7 @@ while cap.isOpened():
                           (0, 255, 0), 1)
 
         str_t = time.strftime('%Y-%m-%d %H:%M:%S')
-        time_now = time.clock()
+        time_now = time.perf_counter()
         time_delta = time_now - time_last
         time_last = time_now
         fps = 1.0 / time_delta
@@ -120,8 +117,7 @@ while cap.isOpened():
         print('get frame error!')
         break
 
-print(time.clock() - time_kaishi)
-print(time.time() - time_kaishi1)
+print('process time:%0.3f' % (time.perf_counter() - time_kaishi))
 
 cap.release()
 cv2.destroyAllWindows()

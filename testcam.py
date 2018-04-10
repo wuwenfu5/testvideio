@@ -21,11 +21,11 @@ cap = cv2.VideoCapture(0)
 # ret = cap.set(4, 90)
 
 face_cascade = cv2.CascadeClassifier(
-    r'/home/wuwenfu5/anaconda3/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
+    r'/usr/local/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')
 eye_cascade = cv2.CascadeClassifier(
-    r'/home/wuwenfu5/anaconda3/share/OpenCV/haarcascades/haarcascade_eye_tree_eyeglasses.xml')
+    r'/usr/local/share/OpenCV/haarcascades/haarcascade_eye_tree_eyeglasses.xml')
 smile_cascade = cv2.CascadeClassifier(
-    r'/home/wuwenfu5/anaconda3/share/OpenCV/haarcascades/haarcascade_smile.xml')
+    r'/usr/local/share/OpenCV/haarcascades/haarcascade_smile.xml')
 time_last = 0.0
 
 while(cap.isOpened()):
