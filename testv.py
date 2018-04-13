@@ -12,7 +12,10 @@ import cv2
 import time
 
 # cap = cv2.VideoCapture(r'/home/wuwenfu5/PycharmProjects/Three_people_cross.mp4')
-cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/Fast_wending.mp4')
+# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/Fast_wending.mp4')
+# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/DJI_4.mp4')
+cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/swimming03.mp4')
+
 # cap = cv2.VideoCapture(0)
 
 
@@ -68,6 +71,7 @@ while cap.isOpened():
             print(keycode, '\n', chr(keycode))
             break
 
+        time.sleep(0.05)
         gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         fgmask = fgbg.apply(gray)
         cv2.imshow('Foreground', fgmask)
@@ -108,6 +112,9 @@ while cap.isOpened():
         cv2.putText(frame, det_t, (0, 460), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 255), 1)
         cv2.putText(frame, str_t, (450, 460), cv2.FONT_HERSHEY_COMPLEX, 0.5, (0, 0, 255), 1)
 
+        # ret, frame = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+        # frame = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+        #                               cv2.THRESH_BINARY, 11, 2)
         cv2.imshow('Original', frame)
         cv2.moveWindow('Original', 100, 0)
         cv2.imshow('Closing And Blob', frame_RGB)
