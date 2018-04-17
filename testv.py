@@ -12,9 +12,9 @@ import cv2
 import time
 
 # cap = cv2.VideoCapture(r'/home/wuwenfu5/PycharmProjects/Three_people_cross.mp4')
-# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/Fast_wending.mp4')
+cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/Fast_wending.mp4')
 # cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/DJI_4.mp4')
-cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/swimming03.mp4')
+# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/swimming03.mp4')
 
 # cap = cv2.VideoCapture(0)
 
