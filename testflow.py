@@ -35,6 +35,7 @@ for step in range(201):
     if step % 20 == 0:
         print(step, sess.run(W), sess.run(b))
 '''
+# print(tf.__version__)
 
 a = tf.constant(5)
 b = tf.constant(6)
