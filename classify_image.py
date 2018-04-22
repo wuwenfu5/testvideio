@@ -1,12 +1,3 @@
-# -*- coding:utf-8 -*-
-"""
-@author:Mr.Five
-@email:wuwenfu5@qq.com
-@num&WeChat:+86-15241192213
-@file:classify_img.py
-@time:18-4-19下午12:44
-"""
-
 # Copyright 2015 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,36 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 
-"""
-Simple image classification with Inception.
+"""Simple image classification with Inception.
+
 Run image classification with Inception trained on ImageNet 2012 Challenge data
 set.
+
 This program creates a graph from a saved GraphDef protocol buffer,
 and runs inference on an input JPEG image. It outputs human readable
 strings of the top 5 predictions along with their probabilities.
+
 Change the --image_file argument to any jpg image to compute a
 classification of that image.
+
 Please see the tutorial and website for a detailed description of how
 to use this script to perform image recognition.
-https://tensorflow.org/tutorials/image_recognition/
 
-使用Inception进行简单的图像分类。
-, 使用Inception培训的ImageNet 2012 Challenge数据集运行图像分类。
-, 该程序从已保存的GraphDef协议缓冲区创建图形，并在输入的JPEG图像上运行推理。,
- 它输出前5个预测的人类可读字符串及其概率。, 
- 将--image_file参数更改为任何jpg图像以计算该图像的分类。
- , 有关如何使用此脚本执行图像识别的详细说明，请参阅教程和网站。
+https://tensorflow.org/tutorials/image_recognition/
 """
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
 
 import argparse
 import os.path
 import re
 import sys
 import tarfile
+import cv2
 
 import numpy as np
 from six.moves import urllib
@@ -81,9 +71,11 @@ class NodeLookup(object):
 
     def load(self, label_lookup_path, uid_lookup_path):
         """Loads a human readable English name for each softmax node.
+
         Args:
           label_lookup_path: string UID to integer node ID.
           uid_lookup_path: string UID to human-readable string.
+
         Returns:
           dict from integer node ID to human-readable string.
         """
@@ -140,8 +132,10 @@ def create_graph():
 
 def run_inference_on_image(image):
     """Runs inference on an image.
+
     Args:
       image: Image file name.
+
     Returns:
       Nothing
     """
@@ -200,7 +194,15 @@ def main(_):
     maybe_download_and_extract()
     image = (FLAGS.image_file if FLAGS.image_file else
              os.path.join(FLAGS.model_dir, 'cropped_panda.jpg'))
-    run_inference_on_image(image)
+    image_path = '/home/wuwenfu5/下载/timg1.jpeg'
+    image_read = cv2.imread(image_path)
+    # image = cv2.imread(r'/home/wuwenfu5/桌面/temp3/Python_/Material/testcv1.jpg')
+    # run_inference_on_image(r'/home/wuwenfu5/桌面/temp3/Python_/Material/wuwenfu80K.jpg')
+    run_inference_on_image(image_path)
+    # print(image)
+    cv2.imshow('Image', image_read)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':

@@ -27,6 +27,7 @@ from __future__ import print_function
 
 import numpy as np
 import tensorflow as tf
+import cv2
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
@@ -79,7 +80,7 @@ def cnn_model_fn(features, labels, mode):
     # Output Tensor Shape: [batch_size, 7 * 7 * 64]
     pool2_flat = tf.reshape(pool2, [-1, 7 * 7 * 64])
 
-    # Dense Layer
+    # dense layer
     # Densely connected layer with 1024 neurons
     # Input Tensor Shape: [batch_size, 7 * 7 * 64]
     # Output Tensor Shape: [batch_size, 1024]
@@ -130,6 +131,9 @@ def main(unused_argv):
     train_labels = np.asarray(mnist.train.labels, dtype=np.int32)
     eval_data = mnist.test.images  # Returns np.array
     eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)
+    # cv2.imshow('mnist', train_data[22].reshape(28,28))
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     # Create the Estimator
     mnist_classifier = tf.estimator.Estimator(
@@ -150,7 +154,7 @@ def main(unused_argv):
         shuffle=True)
     mnist_classifier.train(
         input_fn=train_input_fn,
-        steps=20000,
+        steps=2000,
         hooks=[logging_hook])
 
     # Evaluate the model and print results
@@ -160,6 +164,7 @@ def main(unused_argv):
         num_epochs=1,
         shuffle=False)
     eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
+    print(eval_results)
     print(eval_results)
 
 
