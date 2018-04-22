@@ -10,11 +10,9 @@
 import cv2
 import time
 
-
 import numpy as np
 
 print("hello python!")
-
 
 cap = cv2.VideoCapture(0)
 # ret = cap.set(3, 160)
@@ -28,7 +26,13 @@ smile_cascade = cv2.CascadeClassifier(
     r'/usr/local/share/OpenCV/haarcascades/haarcascade_smile.xml')
 time_last = 0.0
 
-while(cap.isOpened()):
+ret, frame = cap.read()
+tracker = cv2.Tracker('MIL')
+bbox = cv2.selectROI(frame, False)
+print(bbox)
+tracker.init(frame, bbox)
+
+while (cap.isOpened()):
     # get a frame
     ret, frame = cap.read()
     if ret == False:
@@ -68,6 +72,9 @@ while(cap.isOpened()):
     cv2.putText(frame, det_t, (0, 60), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 255), 1)
     cv2.putText(frame, str_t, (0, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 1)
     cv2.imshow("capture", frame)  # show a frame
+
+    item = tracker.track(frame);
+    cv2.imshow("track", item.getFrame())
 
     keycode = cv2.waitKey(1) & 0xff
 

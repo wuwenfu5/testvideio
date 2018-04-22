@@ -11,8 +11,8 @@ import numpy as np
 import cv2
 import time
 
-# cap = cv2.VideoCapture(r'/home/wuwenfu5/PycharmProjects/Three_people_cross.mp4')
-cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/Fast_wending.mp4')
+cap = cv2.VideoCapture(r'/home/wuwenfu5/PycharmProjects/Three_people_cross.mp4')
+# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/Fast_wending.mp4')
 # cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/DJI_4.mp4')
 # cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/swimming03.mp4')
 
@@ -62,6 +62,14 @@ frame_count = 0
 
 time_kaishi = time.perf_counter()
 
+fps_ = cap.get(cv2.CAP_PROP_FPS)
+frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+frames_w = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+frames_h = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+print('fps=', fps_)
+print('frames= ', frames)
+print('frames_wxh=', frames_w, 'x', frames_w)
+
 while cap.isOpened():
     ret, frame = cap.read()
 
@@ -71,7 +79,7 @@ while cap.isOpened():
             print(keycode, '\n', chr(keycode))
             break
 
-        time.sleep(0.05)
+        # time.sleep(0.05)
         gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         fgmask = fgbg.apply(gray)
         cv2.imshow('Foreground', fgmask)
@@ -95,6 +103,19 @@ while cap.isOpened():
             w = h = int(keypoints[index].size)
             cv2.rectangle(frame, (x - int(0.6 * w), y - int(1.2 * h)), (x + int(0.6 * w), y + int(1.2 * h)),
                           (0, 255, 0), 1)
+
+        # _,cnts,_ = cv2.findContours(binary.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        #
+        # for c in cnts:
+        #     # if the contour is too small, ignore it
+        #     if cv2.contourArea(c) < 300:
+        #         continue
+        #
+        #     # 计算轮廓的边界框，在当前帧中画出该框
+        #     x, y, w, h = cv2.boundingRect(c)
+        #     print(cv2.boundingRect(c))
+        #     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
 
         str_t = time.strftime('%Y-%m-%d %H:%M:%S')
         time_now = time.perf_counter()
