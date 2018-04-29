@@ -42,7 +42,7 @@ params.blobColor = 255
 
 # Filter by Area. 面积
 params.filterByArea = True
-params.minArea = 100
+params.minArea = 200
 params.maxArea = 2500
 
 # Filter by Circularity 圆度
@@ -97,10 +97,23 @@ while cap.isOpened():
         frame_RGB = cv2.cvtColor(binary, cv2.COLOR_GRAY2RGB)
         frame_RGB = cv2.drawKeypoints(frame_RGB, keypoints, np.array([]), (0, 255, 0),
                                       cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+        roi_count = 0
         for index in range(np.size(keypoints)):
             x = int(keypoints[index].pt[0])
             y = int(keypoints[index].pt[1])
             w = h = int(keypoints[index].size)
+
+            if frame_count % 10 == 0:
+                roi_x1 = x - int(0.9 * w)
+                roi_x2 = x + int(0.9 * w)
+                roi_y1 = y - int(1.6 * h)
+                roi_y2 = y + int(1.6 * h)
+                if roi_x1 > 0 and roi_x2 > 0 and roi_y1 > 0 and roi_y2 > 0:
+                    roi = frame[roi_y1: roi_y2, roi_x1: roi_x2]
+                    cv2.imshow('ROI', roi)
+                    cv2.imwrite(str('./logs/img_%d_%d.png' % (frame_count, roi_count)), roi)
+                roi_count += 1
+
             cv2.rectangle(frame, (x - int(0.6 * w), y - int(1.2 * h)), (x + int(0.6 * w), y + int(1.2 * h)),
                           (0, 255, 0), 1)
 
@@ -115,7 +128,6 @@ while cap.isOpened():
         #     x, y, w, h = cv2.boundingRect(c)
         #     print(cv2.boundingRect(c))
         #     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
 
         str_t = time.strftime('%Y-%m-%d %H:%M:%S')
         time_now = time.perf_counter()

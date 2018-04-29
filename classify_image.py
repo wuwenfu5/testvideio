@@ -194,7 +194,7 @@ def main(_):
     maybe_download_and_extract()
     image = (FLAGS.image_file if FLAGS.image_file else
              os.path.join(FLAGS.model_dir, 'cropped_panda.jpg'))
-    image_path = '/home/wuwenfu5/下载/timg1.jpeg'
+    image_path = '/home/wuwenfu5/下载/index1.jpeg'
     image_read = cv2.imread(image_path)
     # image = cv2.imread(r'/home/wuwenfu5/桌面/temp3/Python_/Material/testcv1.jpg')
     # run_inference_on_image(r'/home/wuwenfu5/桌面/temp3/Python_/Material/wuwenfu80K.jpg')
