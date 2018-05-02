@@ -1,4 +1,3 @@
-%function multiObjectTracking()
 function testtracker()
 % create system objects used for reading video, detecting moving objects,
 % and displaying the results
@@ -6,6 +5,7 @@ function testtracker()
     myfuns = trackerfun;
     %tracks = initializeTracks(); % create an empty array of tracks  %初始化轨迹对象
     tracks = myfuns.initializeTracks();
+%     tracks = trackerclass(1, 2, 3, 4, 5, 6);
     nextId = 1; % ID of the next track
 
     % detect moving objects, and track them across video frames
@@ -23,7 +23,7 @@ function testtracker()
 
         displayTrackingResults();%结果展示
     end
-
+ 
 
 %% Create System Objects
 % Create System objects used for reading the video frames, detecting
@@ -35,7 +35,7 @@ function testtracker()
         % objects in each frame, and playing the video.
         
         % create a video file reader
-        obj.reader = vision.VideoFileReader('/home/wuwenfu5/桌面/temp3/Python_/Material/Many.mp4');         %读入视频
+        obj.reader = vision.VideoFileReader('/home/wuwenfu5/PycharmProjects/Three_people_cross.mp4');         %读入视频
         
         % create two video players, one to display the video,
         % and one to display the foreground mask
@@ -381,5 +381,5 @@ function testtracker()
 % filters for every object. Also, you can incorporate other cues for
 % associating detections over time, such as size, shape, and color. 
 
-displayEndOfDemoMessage(mfilename)
+% displayEndOfDemoMessage(mfilename)
 end

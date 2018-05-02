@@ -10,6 +10,7 @@
 import numpy as np
 import cv2
 import time
+import matlab
 
 cap = cv2.VideoCapture(r'/home/wuwenfu5/PycharmProjects/Three_people_cross.mp4')
 # cap = cv2.VideoCapture(r'/media/wuwenfu5/Win&Ubuntu/Python_/Material/Fast_wending.mp4')
@@ -70,6 +71,8 @@ print('fps=', fps_)
 print('frames= ', frames)
 print('frames_wxh=', frames_w, 'x', frames_w)
 
+tracker = cv2.MultiTracker_create()
+
 while cap.isOpened():
     ret, frame = cap.read()
 
@@ -98,6 +101,7 @@ while cap.isOpened():
         frame_RGB = cv2.drawKeypoints(frame_RGB, keypoints, np.array([]), (0, 255, 0),
                                       cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
         roi_count = 0
+
         for index in range(np.size(keypoints)):
             x = int(keypoints[index].pt[0])
             y = int(keypoints[index].pt[1])
