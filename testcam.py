@@ -26,11 +26,11 @@ smile_cascade = cv2.CascadeClassifier(
     r'/usr/local/share/OpenCV/haarcascades/haarcascade_smile.xml')
 time_last = 0.0
 
-ret, frame = cap.read()
-tracker = cv2.Tracker('MIL')
-bbox = cv2.selectROI(frame, False)
-print(bbox)
-tracker.init(frame, bbox)
+# ret, frame = cap.read()
+# tracker = cv2.Tracker('MIL')
+# bbox = cv2.selectROI(frame, False)
+# print(bbox)
+# tracker.init(frame, bbox)
 
 while (cap.isOpened()):
     # get a frame
@@ -73,8 +73,8 @@ while (cap.isOpened()):
     cv2.putText(frame, str_t, (0, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 0, 255), 1)
     cv2.imshow("capture", frame)  # show a frame
 
-    item = tracker.track(frame);
-    cv2.imshow("track", item.getFrame())
+    # item = tracker.track(frame);
+    # cv2.imshow("track", item.getFrame())
 
     keycode = cv2.waitKey(1) & 0xff
 
