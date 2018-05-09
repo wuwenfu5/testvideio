@@ -12,8 +12,9 @@ import cv2
 import time
 import os
 
-# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win_Ubuntu_Swap/Python_/Material/MyMOT/shitang10.AVI')
-cap = cv2.VideoCapture(r'/media/wuwenfu5/Win_Ubuntu_Swap/Python_/Material/Many.mp4')
+# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win_Ubuntu_Swap/Python_/Material/MyMOT/shitang1.AVI')
+cap = cv2.VideoCapture(r'/media/wuwenfu5/Win_Ubuntu_Swap/Python_/Material/Three_people_cross.mp4')
+# cap = cv2.VideoCapture(r'/media/wuwenfu5/Win_Ubuntu_Swap/Python_/testavi/campus_raw.AVI')
 body_cascade = cv2.CascadeClassifier(
     r'/usr/local/share/OpenCV/haarcascades/haarcascade_fullbody.xml')
 # cap = cv2.VideoCapture(0)
@@ -27,7 +28,7 @@ else:
 kernel3x3 = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
 kernel6x6 = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))
 
-fgbg = cv2.createBackgroundSubtractorMOG2(history=200, varThreshold=32, detectShadows=True)
+fgbg = cv2.createBackgroundSubtractorMOG2(history=300, varThreshold=32, detectShadows=True)
 # fgbg = cv2.createBackgroundSubtractorKNN(history=200, detectShadows=True)
 
 params = cv2.SimpleBlobDetector_Params()
@@ -35,7 +36,7 @@ params = cv2.SimpleBlobDetector_Params()
 # params.minThreshold = 10
 # params.maxThreshold = 200
 
-params.minDistBetweenBlobs = 30
+params.minDistBetweenBlobs = 50
 
 # 检测白色
 params.filterByColor = True
@@ -43,7 +44,7 @@ params.blobColor = 255
 
 # Filter by Area. 面积
 params.filterByArea = True
-params.minArea = 150
+params.minArea = 500
 params.maxArea = 50000
 
 # Filter by Circularity 圆度
@@ -85,8 +86,11 @@ while cap.isOpened():
             break
 
         # time.sleep(0.05)
+        frame = cv2.GaussianBlur(frame, (3, 3), 1.0)
         gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
         fgmask = fgbg.apply(gray)
+        fgmask = cv2.medianBlur(fgmask, 5)
+
         cv2.imshow('Foreground', fgmask)
         cv2.moveWindow('Foreground', 740, 0)
 
@@ -95,24 +99,25 @@ while cap.isOpened():
         cv2.moveWindow('Opening', 740, 537)
 
         ret, binary = cv2.threshold(fgmask, 128, 255, cv2.THRESH_BINARY)
-        binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel6x6, iterations=2)
+        # binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel6x6, iterations=2)
+        binary = cv2.dilate(binary, kernel3x3, iterations=2)
 
-        # Copy the thresholded image.
-        im_floodfill = binary.copy()
-
-        # Mask used to flood filling.
-        # Notice the size needs to be 2 pixels than the image.
-        h, w = binary.shape[:2]
-        mask = np.zeros((h + 2, w + 2), np.uint8)
-
-        # Floodfill from point (0, 0)
-        cv2.floodFill(im_floodfill, mask, (0, 0), 255)
-
-        # Invert floodfilled image
-        im_floodfill_inv = cv2.bitwise_not(im_floodfill)
-
-        # Combine the two images to get the foreground.
-        binary = binary | im_floodfill_inv
+        # # Copy the thresholded image.
+        # im_floodfill = binary.copy()
+        #
+        # # Mask used to flood filling.
+        # # Notice the size needs to be 2 pixels than the image.
+        # h, w = binary.shape[:2]
+        # mask = np.zeros((h + 2, w + 2), np.uint8)
+        #
+        # # Floodfill from point (0, 0)
+        # cv2.floodFill(im_floodfill, mask, (0, 0), 255)
+        #
+        # # Invert floodfilled image
+        # im_floodfill_inv = cv2.bitwise_not(im_floodfill)
+        #
+        # # Combine the two images to get the foreground.
+        # binary = binary | im_floodfill_inv
 
 
         detector = cv2.SimpleBlobDetector_create(params)
@@ -128,19 +133,19 @@ while cap.isOpened():
             w = h = int(keypoints[index].size)
 
             # if frame_count % 10 == 0:
-            roi_x1 = x - int(0.9 * w)
-            roi_x2 = x + int(0.9 * w)
-            roi_y1 = y - int(1.6 * h)
-            roi_y2 = y + int(1.6 * h)
+            roi_x1 = x - int(0.5 * w)
+            roi_x2 = x + int(0.5 * w)
+            roi_y1 = y - int(1.0 * h)
+            roi_y2 = y + int(1.0 * h)
             if roi_x1 > 0 and roi_x2 > 0 and roi_y1 > 0 and roi_y2 > 0:
                 roi = frame[roi_y1: roi_y2, roi_x1: roi_x2]
                 # cv2.imshow('ROI', roi)
                 # cv2.imwrite(str('./logs/img_%d_%d.png' % (frame_count, roi_count)), roi)
             roi_count += 1
 
-            results.append([frame_count, index, roi_x1, roi_y1, int(1.8 * w), int(3.2 * h)])
-            detections_out += [np.r_[(frame_count, index, roi_x1, roi_y1, int(1.8 * w), int(3.2 * h), 1, -1, -1, -1)]]
-            cv2.rectangle(frame, (x - int(0.6 * w), y - int(1.2 * h)), (x + int(0.6 * w), y + int(1.2 * h)),
+            results.append([frame_count, index, roi_x1, roi_y1, int(1.0 * w), int(2.0 * h)])
+            # detections_out += [np.r_[(frame_count, index, roi_x1, roi_y1, int(1.2 * w), int(2.4 * h), 1, -1, -1, -1)]]
+            cv2.rectangle(frame, (roi_x1, roi_y1), (roi_x2, roi_y2),
                           (0, 255, 0), 1)
 
         # _,cnts,_ = cv2.findContours(binary.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
